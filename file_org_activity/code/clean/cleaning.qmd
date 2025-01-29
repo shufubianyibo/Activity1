@@ -4,10 +4,38 @@ title: "Cleaning SFO weather data"
 
 # Tasks
 
+```{r}
+library(tidyverse)
+library(lubridate)
+```
+
+
 1. Read in the weather data in this file with the correct relative file path.
   - Find the weather data within the file structure provided in the `.zip` file for this activity.
+  
+```{r}
+weather  <- read_csv("../../data/raw/weather.csv")
+```
+
+
 2. There is a variable that has values that don't make sense in the data context. Figure out which variable this is and clean it up by making those values missing using `na_if()`.
+
+```{r}
+weather_clean <- weather%>%
+  mutate(PrecipYr = na_if(PrecipYr, 99999))
+```
+
+
 3. Create a variable called `dateInYear` that indicates the day of the year (1-365) for each case. (Jan 1 should be 1, and Dec 31 should be 365).
+
+```{r}
+weather_date <- weather_clean%>%
+  mutate(
+    date_ymd = str_remove(date,(6,8)),
+    date = str_replace_all(date,"/","-"))
+```
+
+
 4. Create a variable called `month_name` that shows the 3-letter abbreviation for each case.
 5. Save your wrangled data to the `data/clean/` folder using `write_csv()`. Name this file `weather_clean.csv`. Look up the documentation for this function by entering `?write_csv` in the Console. You'll need to write an appropriate relative path.
 
