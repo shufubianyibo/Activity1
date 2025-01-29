@@ -30,9 +30,7 @@ weather_clean <- weather%>%
 
 ```{r}
 weather_date <- weather_clean%>%
-  mutate(
-    date_ymd = str_remove(date,(6,8)),
-    date = str_replace_all(date,"/","-"))
+  mutate(dateInYear = yday(mdy(date)))
 ```
 
 
